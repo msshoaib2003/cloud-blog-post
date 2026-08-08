@@ -1,0 +1,370 @@
+<!--
+  ============================================================================
+  MSClOUDS POST TEMPLATE — HOW TO USE
+  ============================================================================
+  1. Copy this file into your posts/ folder and rename it to your post's slug,
+     e.g. posts/my-new-post.html
+
+  2. Replace every [BRACKETED PLACEHOLDER] below with your real content.
+
+  3. Badge / category colors are already defined in css/style.css — reuse one:
+       badge--aws · badge--devops · badge--security · badge--linux · badge--cloud
+     To add a new category, add a --color-cat-yourname token and a matching
+     .badge--yourname rule in style.css.
+
+  4. Table of Contents: every <h2 id="..."> in the article body needs a
+     matching <a href="#..."> in the sidebar TOC list, in the same order.
+     The scroll-spy highlighting in js/post.js relies on the ids matching.
+
+  5. Update the breadcrumb, nav "aria-current", prev/next links, and related
+     articles at the bottom to point at your real posts.
+
+  6. This file assumes it lives at:  posts/your-post.html
+     with these next to it:          css/style.css   (one level up: ../css/)
+                                      js/post.js      (one level up: ../js/)
+     Adjust the ../ paths if your folder structure is different.
+
+  7. Social preview image: create a 1200×630px JPG/PNG per post and store it
+     at assets/images/[post-slug].jpg in your repo, then point og:image /
+     twitter:image at it. Without this, LinkedIn will either show no image
+     or grab a random one from the page — worth doing per post.
+
+  ============================================================================
+  ⚠ BEFORE YOU PUBLISH — checklist
+  ============================================================================
+  [ ] Every [BRACKETED PLACEHOLDER] replaced, including in <head> and the
+      JSON-LD script block
+  [ ] og:url / canonical / JSON-LD @id all use the real published URL
+  [ ] Previous / Next / Related links point at real posts, not [slug].html
+      (if this is your first post, delete the "prev" card — see the comment
+      near .post-nav below)
+  [ ] GitHub/LinkedIn icons point at your actual profile, not the
+      [YOUR-GITHUB-USERNAME] / [YOUR-LINKEDIN-HANDLE] placeholders
+  [ ] og:image / twitter:image / JSON-LD "image" point at a real, uploaded
+      1200×630 image — separate from the on-page SVG hero (see note below)
+
+  ⚠ THIS FILE ITSELF SHOULD NOT GO LIVE AS A PUBLISHED ARTICLE
+  Since this is a static site with no build step, anything committed inside
+  your Cloudflare Pages publish directory becomes a public URL — including
+  this template if you drop it straight into posts/. Keep your working copy
+  of post-template.html outside whatever folder Cloudflare Pages is
+  configured to publish (e.g. a top-level /templates folder that sits
+  alongside, not inside, your published site folder), and only copy it INTO
+  posts/ once it's a real, filled-in article.
+  ============================================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- EDIT: page title and meta description -->
+<title>[POST TITLE] — MSClouds</title>
+<meta name="description" content="[ONE-SENTENCE SUMMARY FOR SEARCH ENGINES AND SOCIAL PREVIEWS]">
+
+<!-- EDIT: canonical URL — the one true published address of this post -->
+<link rel="canonical" href="https://blog.msclouds.in/posts/[POST-SLUG].html">
+
+<!-- Open Graph — this is what LinkedIn (and Facebook) actually read for link previews -->
+<meta property="og:title" content="[POST TITLE]">
+<meta property="og:description" content="[ONE-SENTENCE SUMMARY — can match the meta description above]">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blog.msclouds.in/posts/[POST-SLUG].html">
+<meta property="og:site_name" content="MSClouds">
+<meta property="og:image" content="https://blog.msclouds.in/assets/images/[POST-SLUG].jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:published_time" content="[YYYY-MM-DD]">
+<!-- Only include modified_time if this post has actually been edited since publishing — delete otherwise -->
+<meta property="article:modified_time" content="[YYYY-MM-DD]">
+
+<!-- Twitter/X Card — only rendered on Twitter/X, not LinkedIn, but cheap to include -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="[POST TITLE]">
+<meta name="twitter:description" content="[ONE-SENTENCE SUMMARY]">
+<meta name="twitter:image" content="https://blog.msclouds.in/assets/images/[POST-SLUG].jpg">
+
+<!-- JSON-LD structured data — helps search engines identify this as an article,
+     who wrote it, and when. Fill in the same values used in the OG tags above. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "[POST TITLE]",
+  "description": "[ONE-SENTENCE SUMMARY]",
+  "datePublished": "[YYYY-MM-DD]",
+  "dateModified": "[YYYY-MM-DD]",
+  "author": {
+    "@type": "Person",
+    "name": "[AUTHOR NAME]"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "MSClouds",
+    "url": "https://blog.msclouds.in"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog.msclouds.in/posts/[POST-SLUG].html"
+  },
+  "image": ["https://blog.msclouds.in/assets/images/[POST-SLUG].jpg"]
+}
+</script>
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%23090C11'/%3E%3Ctext x='12' y='16.5' font-family='monospace' font-size='13' fill='%233B82F6' text-anchor='middle'%3E%3E%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<!-- ======================= HEADER — same on every post ======================= -->
+<header class="site-header">
+  <div class="container">
+    <a href="../index.html" class="brand">MSClouds<span class="cursor">_</span></a>
+
+    <nav class="main-nav" data-nav>
+      <a href="../index.html">Home</a>
+      <a href="../articles.html">Articles</a>
+      <a href="../articles.html?cat=aws">AWS</a>
+      <a href="../articles.html?cat=devops">DevOps</a>
+      <a href="../articles.html?cat=security">Security</a>
+      <a href="../articles.html?cat=cloud">Cloud</a>
+      <a href="../about.html">About</a>
+    </nav>
+
+    <div class="header-actions">
+      <a class="icon-btn" href="https://github.com/[YOUR-GITHUB-USERNAME]" aria-label="MSClouds on GitHub" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55v-2.14c-3.2.7-3.87-1.36-3.87-1.36-.53-1.34-1.28-1.7-1.28-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.7 5.4-5.28 5.69.42.36.78 1.07.78 2.16v3.2c0 .3.21.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+      </a>
+      <button class="icon-btn nav-toggle" data-nav-toggle aria-label="Toggle menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ======================= ARTICLE HEADER ======================= -->
+    <div class="article-header">
+
+      <!-- EDIT: breadcrumb trail -->
+      <div class="breadcrumb">
+        <a href="../index.html">Home</a><span class="sep">→</span>
+        <a href="../articles.html?cat=[CATEGORY-SLUG]">[CATEGORY NAME]</a><span class="sep">→</span>
+        <span class="current">[POST TITLE]</span>
+      </div>
+
+      <!-- EDIT: pick one badge class — aws / devops / security / linux / cloud -->
+      <span class="badge badge--[CATEGORY-SLUG]">[CATEGORY NAME]</span>
+
+      <!-- EDIT: post title -->
+      <h1>[POST TITLE]</h1>
+
+      <!-- EDIT: date, author, read time -->
+      <div class="meta-row">
+        <span>Published: [MONTH DAY, YEAR]</span>
+        <span class="dot"></span>
+        <span>Author: [AUTHOR NAME]</span>
+        <span class="dot"></span>
+        <span>Reading time: [N] minutes</span>
+      </div>
+
+      <!-- OPTIONAL: on-page hero illustration. Delete this whole block if you don't want one.
+           Note: this SVG is decorative and only renders inside the page — it is NOT what
+           LinkedIn shows in link previews. Social crawlers only fetch the URL in og:image
+           above, which must be a real JPG/PNG, not this inline SVG. They're two separate
+           assets by design; there's no way to make a crawler screenshot the page instead. -->
+      <div class="article-hero-art">
+        <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.6">
+          <circle cx="100" cy="60" r="8"/>
+          <circle cx="60" cy="130" r="8"/>
+          <circle cx="140" cy="130" r="8"/>
+          <path d="M100 68 L60 122M100 68 L140 122M60 130 L140 130" stroke-dasharray="3 5"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="article-layout">
+      <!-- ======================= ARTICLE BODY ======================= -->
+      <article class="article-body">
+
+        <!-- EDIT: opening paragraph — sets up what the reader will learn -->
+        <p>[INTRODUCTION PARAGRAPH — one or two sentences framing what this post covers and why it matters.]</p>
+
+        <!-- ============================================================
+             STANDARD MSCLOUDS SECTION OUTLINE
+             Not every post needs every section below — delete whichever
+             don't apply (e.g. a Linux commands post may skip "Security
+             Considerations"). Keep the ones you use in this order, and
+             make sure each h2 id has a matching TOC entry in the sidebar.
+        ============================================================= -->
+
+        <h2 id="what-is-x">What is [X]?</h2>
+        <p>[Define the core concept in plain terms before going further.]</p>
+
+        <h2 id="why-it-matters">Why Does [X] Matter?</h2>
+        <p>[The practical consequence of understanding/using this — what breaks or improves.]</p>
+
+        <ul>
+          <li>[Reason / benefit]</li>
+          <li>[Reason / benefit]</li>
+          <li>[Reason / benefit]</li>
+        </ul>
+
+        <h2 id="how-it-works">How Does [X] Work?</h2>
+        <p>[Mechanics — the "under the hood" explanation.]</p>
+
+        <h3>[OPTIONAL SUB-HEADING]</h3>
+        <p>[Sub-section copy — use h3 for a subdivision that doesn't need its own TOC entry.]</p>
+
+        <h2 id="practical-example">Practical Example</h2>
+        <p>[A concrete, worked scenario — this is usually the most-read section, don't skip it.]</p>
+
+        <!-- OPTIONAL: code block. Duplicate for each snippet, delete if unused. -->
+        <div class="code-block">
+          <div class="code-block-head">
+            <span>[FILENAME OR LANGUAGE, e.g. bash / main.tf]</span>
+            <button class="copy-btn" data-copy-target="#code-example-1">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/></svg>
+              Copy
+            </button>
+          </div>
+          <pre><code id="code-example-1"><span class="prompt">$</span> your-command-here</code></pre>
+        </div>
+        <p>[Explain what the command/snippet above does.]</p>
+
+        <h2 id="security-considerations">Security Considerations</h2>
+        <p>[What can go wrong from a security standpoint, and how to avoid it. Delete this section if it genuinely doesn't apply.]</p>
+
+        <h2 id="best-practices">Best Practices</h2>
+        <ul>
+          <li>[Practice]</li>
+          <li>[Practice]</li>
+          <li>[Practice]</li>
+        </ul>
+
+        <!-- OPTIONAL: callout box for a tip or warning. Delete if unused. -->
+        <div class="callout">
+          <strong>Tip:</strong> [A short, high-value tip related to this section.]
+        </div>
+
+        <h2 id="common-mistakes">Common Mistakes</h2>
+        <p>[What people get wrong in practice — this is often the most useful section for experienced readers.]</p>
+
+        <h2 id="conclusion">Conclusion</h2>
+        <p>[Wrap-up paragraph — summarize the key takeaway.]</p>
+
+        <hr class="divider">
+
+        <!-- EDIT: link to the actual previous/next posts in your publishing order.
+             If this is your FIRST post, there's no previous article — delete the
+             entire "prev" <a> block below and add class="post-nav post-nav--single"
+             to the div so the remaining Next card doesn't sit awkwardly in a
+             half-empty two-column grid. -->
+        <div class="post-nav">
+          <a href="[PREVIOUS-POST-SLUG].html" class="post-nav-card prev">
+            <span class="dir">← Previous</span>
+            <h5>[Previous Post Title]</h5>
+          </a>
+          <a href="[NEXT-POST-SLUG].html" class="post-nav-card next">
+            <span class="dir">Next →</span>
+            <h5>[Next Post Title]</h5>
+          </a>
+        </div>
+      </article>
+
+      <!-- ======================= SIDEBAR ======================= -->
+      <aside class="article-sidebar">
+        <div class="sidebar-block">
+          <h5>Table of Contents</h5>
+          <!-- EDIT: must mirror the h2 ids above, in the same order.
+               Delete any line whose section you removed from the body. -->
+          <ul class="toc-list" data-toc>
+            <li><a href="#what-is-x">What is [X]?</a></li>
+            <li><a href="#why-it-matters">Why It Matters</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#practical-example">Practical Example</a></li>
+            <li><a href="#security-considerations">Security Considerations</a></li>
+            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="#common-mistakes">Common Mistakes</a></li>
+            <li><a href="#conclusion">Conclusion</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-block">
+          <h5>Popular Articles</h5>
+          <!-- EDIT: link to 2-3 of your real posts -->
+          <ul class="popular-list">
+            <li><a href="[slug-1].html">[Post title]</a></li>
+            <li><a href="[slug-2].html">[Post title]</a></li>
+            <li><a href="[slug-3].html">[Post title]</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+
+    <!-- ======================= RELATED ARTICLES ======================= -->
+    <section class="section-related" style="padding-block: 24px 64px;">
+      <div class="section-head">
+        <h2 class="section-title">Related Articles</h2>
+      </div>
+      <!-- EDIT: 2 related posts, same card pattern used sitewide -->
+      <div class="article-grid">
+        <a href="[related-slug-1].html" class="article-card">
+          <span class="badge badge--[category]">[Category]</span>
+          <h4>[Related Post Title]</h4>
+          <p class="desc">[One-line description.]</p>
+          <div class="meta-row"><span>[N] min read</span></div>
+        </a>
+        <a href="[related-slug-2].html" class="article-card">
+          <span class="badge badge--[category]">[Category]</span>
+          <h4>[Related Post Title]</h4>
+          <p class="desc">[One-line description.]</p>
+          <div class="meta-row"><span>[N] min read</span></div>
+        </a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<!-- ======================= FOOTER — same on every post ======================= -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="../index.html" class="brand">MSClouds<span class="cursor">_</span></a>
+        <p>Cloud · DevOps · Security · Infrastructure</p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h5>Site</h5>
+          <a href="../index.html">Home</a>
+          <a href="../articles.html">Articles</a>
+          <a href="../about.html">About</a>
+        </div>
+        <div class="footer-col">
+          <h5>Topics</h5>
+          <a href="../articles.html?cat=aws">AWS</a>
+          <a href="../articles.html?cat=devops">DevOps</a>
+          <a href="../articles.html?cat=security">Security</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© <span data-year></span> MSClouds. All rights reserved.</p>
+      <div class="footer-social">
+        <a class="icon-btn" href="https://github.com/[YOUR-GITHUB-USERNAME]" aria-label="GitHub" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55v-2.14c-3.2.7-3.87-1.36-3.87-1.36-.53-1.34-1.28-1.7-1.28-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.7 5.4-5.28 5.69.42.36.78 1.07.78 2.16v3.2c0 .3.21.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+        </a>
+        <a class="icon-btn" href="https://linkedin.com/in/[YOUR-LINKEDIN-HANDLE]" aria-label="LinkedIn" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.66 4.78 6.1V21h-4v-5.6c0-1.34-.02-3.06-1.86-3.06-1.87 0-2.16 1.46-2.16 2.96V21h-4V9Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/post.js"></script>
+</body>
+</html>
